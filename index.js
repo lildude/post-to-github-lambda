@@ -81,7 +81,7 @@ function create_post(event, callback, imgFileName = '') {
   var fileContent = '---\n';
   fileContent += 'layout: post\n';
   if (title) {
-    fileContent += 'title: "' + title + '"';
+    fileContent += 'title: "' + title + '"\n';
   }
   fileContent += 'date: ' + date.toISOString().substr(0, 19).replace('T', ' ') + ' ' + createOffset(date) + '\n';
   fileContent += '---\n\n';
