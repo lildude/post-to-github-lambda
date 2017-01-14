@@ -1,0 +1,41 @@
+{
+  "name": "post-to-github-lambda",
+  "version": "0.0.1",
+  "description": "A simple lambda function that posts content to a GitHub repository.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "deploy": "claudia create --region us-east-1 --handler index.handler",
+    "update": "claudia update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lildude/post-to-github-lambda.git"
+  },
+  "keywords": [
+    "lambda",
+    "github",
+    "api"
+  ],
+  "author": "Colin Seymour <lildood@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lildude/post-to-github-lambda/issues"
+  },
+  "homepage": "https://github.com/lildude/post-to-github-lambda#readme",
+  "dependencies": {
+    "github": "^7.1.0",
+    "http": "0.0.0",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "aws-lambda-local": "^1.0.14",
+    "chai": "^3.5.0",
+    "claudia": "^2.4.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
+  },
+  "files": [
+    "*.js"
+  ]
+}
