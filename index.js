@@ -68,15 +68,16 @@ function upload_img(data, filename, event, callback) {
 
 function create_post(event, callback, imgFileName = '') {
   var date = new Date();
-  var fileName = date.toISOString().substr(0, 10) + '-' + Math.round(Number(date) / 1000) % (24 * 60 * 60) + '.md';
   var content = event.content;
 
   // If the first line starts with a # it's the post title
   if (content.substr(0, 2) == "# ") {
-    var parsed = content.match(/^# (.*)\n+(.*)/);  // TODO: This needs improving.
+    var parsed = content.match(/^# (.*)\n+(.*)/);
     var title = parsed[1];
     content = parsed[2];
   }
+
+  var fileName = date.toISOString().substr(0, 10) + '-' + (title ? slugify(title) : Math.round(Number(date) / 1000) % (24 * 60 * 60)) + '.md';
 
   var fileContent = '---\n';
   fileContent += 'layout: post\n';
