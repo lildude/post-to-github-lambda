@@ -118,3 +118,21 @@ function createOffset(date) {
   var minutes = pad(offset % 60);
   return sign + hours + minutes;
 }
+
+function slugify(string) {
+  return string
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[\u00C0-\u00C5]/ig,'a')
+    .replace(/[\u00C8-\u00CB]/ig,'e')
+    .replace(/[\u00CC-\u00CF]/ig,'i')
+    .replace(/[\u00D2-\u00D6]/ig,'o')
+    .replace(/[\u00D9-\u00DC]/ig,'u')
+    .replace(/[\u00D1]/ig,'n')
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
