@@ -1,0 +1,7 @@
+{
+  "lambda": {
+    "role": "post-to-github-lambda-executor",
+    "name": "post-to-github-lambda",
+    "region": "us-east-1"
+  }
+}
