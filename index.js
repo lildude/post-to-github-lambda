@@ -8,13 +8,10 @@ exports.handler = function (event, context, callback) {
   //console.log('Event: \n', event);
 
   // auth with personal access token
-  github.authenticate({
-    type: 'token',
-    token: process.env.PAT
-  });
+  github.authenticate({ type: 'token', token: process.env.PAT });
 
   if (event.instagram_url) {
-    get_img(event, callback);
+    getImg(event, callback);
   } else {
     create_post(event, callback);
   }
@@ -23,14 +20,14 @@ exports.handler = function (event, context, callback) {
 /* This is the first in a series of functions that call each other when receiving
  * an event for an Instagram image.
  *
- * First we get the image data, base64 encode it and then call upload_img() which
+ * First we get the image data, base64 encode it and then call uploadImg() which
  * uploads this to GitHub. Once this has finished it calls create_post() to create
  * the corresponding markdown file.
  * We need to chain these because Node is async by default as we need things to be semi synchronous.
  *
  * TODO: Optimise this as I know it's not "correct" - should probably use Promises from something like bluebird.
  */
-function get_img(event, callback) {
+function getImg(event, callback) {
   var request = require('request').defaults({ encoding: null });
 
   request.get(event.instagram_url, function (err, res, body) {
@@ -42,13 +39,13 @@ function get_img(event, callback) {
           console.log(JSON.stringify(err));
           callback(err, 'Ooops. Something went wrong getting Instagram image');
         } else {
-          upload_img(data, filename, event, callback);
+          uploadImg(data, filename, event, callback);
         }
       }
   });
 };
 
-function upload_img(data, filename, event, callback) {
+function uploadImg(data, filename, event, callback) {
   github.repos.createFile({
     owner: 'lildude',
     repo: event.repo,
