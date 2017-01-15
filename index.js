@@ -18,14 +18,14 @@ exports.handler = function (event, context, callback) {
   if (!event.APIKey || event.APIKey != request.env.APIKEY) {
     context.fail('Invalid or missing API key');
   }
-  
+
   // auth with personal access token
   github.authenticate({ type: 'token', token: process.env.PAT });
 
   if (event.instagram_url) {
     getImg(event, callback);
   } else {
-    create_post(event, callback);
+    createPost(event, callback);
   }
 };
 
@@ -33,7 +33,7 @@ exports.handler = function (event, context, callback) {
  * an event for an Instagram image.
  *
  * First we get the image data, base64 encode it and then call uploadImg() which
- * uploads this to GitHub. Once this has finished it calls create_post() to create
+ * uploads this to GitHub. Once this has finished it calls createPost() to create
  * the corresponding markdown file.
  * We need to chain these because Node is async by default as we need things to be semi synchronous.
  *
@@ -70,12 +70,12 @@ function uploadImg(data, filename, event, callback) {
       callback(err, 'Ooops. Something went wrong uploading image to GitHub');
     } else {
       //console.log('Successfully added Instagram img ' + filename);
-      create_post(event, callback, filename)
+      createPost(event, callback, filename)
     }
   });
 }
 
-function create_post(event, callback, imgFileName = '') {
+function createPost(event, callback, imgFileName = '') {
   var date = new Date();
   var content = event.content;
 
