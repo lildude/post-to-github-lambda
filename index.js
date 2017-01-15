@@ -13,7 +13,12 @@ exports.handler = function (event, context, callback) {
   if (!process.env.APIKey) {
     context.fail('Oooops, you forgot to set the APIKey when env var when setting up this script on lambda');
   }
-
+  // Crude easy API key without using the API keys AWS offers for use with the API gateway
+  // TODO: We could probably use KMS here too.
+  if (!event.APIKey || event.APIKey != request.env.APIKEY) {
+    context.fail('Invalid or missing API key');
+  }
+  
   // auth with personal access token
   github.authenticate({ type: 'token', token: process.env.PAT });
 
