@@ -1,6 +1,7 @@
 {
   "type": "instagram",
   "repo": "lildude.github.io",
+  "APIKey": "123456",
   "instagram_url": "http://ift.tt/2cXiMVr",
   "content": "This is the content 😄"
 }
