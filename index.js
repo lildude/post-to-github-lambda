@@ -6,6 +6,13 @@ var github = new GitHubApi({debug: false});
 exports.handler = function (event, context, callback) {
   //console.log('env.PAT =', process.env.PAT);
   //console.log('Event: \n', event);
+  // TODO: Move the PAT to KMS - http://stackoverflow.com/questions/29372278/aws-lambda-how-to-store-secret-to-external-api
+  if (!process.env.PAT) {
+    context.fail('Oooops, you forgot to set the PAT env var when setting up this script on lambda');
+  }
+  if (!process.env.APIKey) {
+    context.fail('Oooops, you forgot to set the APIKey when env var when setting up this script on lambda');
+  }
 
   // auth with personal access token
   github.authenticate({ type: 'token', token: process.env.PAT });
