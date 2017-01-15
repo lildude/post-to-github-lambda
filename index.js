@@ -10,12 +10,12 @@ exports.handler = function (event, context, callback) {
   if (!process.env.PAT) {
     context.fail('Oooops, you forgot to set the PAT env var when setting up this script on lambda');
   }
-  if (!process.env.APIKey) {
+  if (!process.env.APIKEY) {
     context.fail('Oooops, you forgot to set the APIKey when env var when setting up this script on lambda');
   }
   // Crude easy API key without using the API keys AWS offers for use with the API gateway
   // TODO: We could probably use KMS here too.
-  if (!event.APIKey || event.APIKey != request.env.APIKEY) {
+  if (!event.APIKey || event.APIKey != process.env.APIKEY) {
     context.fail('Invalid or missing API key');
   }
 
