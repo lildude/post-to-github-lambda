@@ -1,9 +1,17 @@
 'use strict';
+var vandium = require( 'vandium' );
 var GitHubApi = require('github');
 var github = new GitHubApi({debug: false});
 
+vandium.validation({
+  type: vandium.types.string().required(),
+  repo: vandium.types.string().required(),
+  APIKey: vandium.types.uuid().valid(process.env.APIKEY).required(),
+  content: vandium.types.string().required()
+});
+
 // One AWS we exec index.handler (because our filename is index.js)
-exports.handler = function (event, context, callback) {
+exports.handler = vandium( function( event, context, callback ) {
   //console.log('env.PAT =', process.env.PAT);
   //console.log('Event: \n', event);
   // TODO: Move the PAT to KMS - http://stackoverflow.com/questions/29372278/aws-lambda-how-to-store-secret-to-external-api
@@ -12,11 +20,6 @@ exports.handler = function (event, context, callback) {
   }
   if (!process.env.APIKEY) {
     context.fail('Oooops, you forgot to set the APIKey when env var when setting up this script on lambda');
-  }
-  // Crude easy API key without using the API keys AWS offers for use with the API gateway
-  // TODO: We could probably use KMS here too.
-  if (!event.APIKey || event.APIKey != process.env.APIKEY) {
-    context.fail('Invalid or missing API key');
   }
 
   // auth with personal access token
@@ -27,7 +30,7 @@ exports.handler = function (event, context, callback) {
   } else {
     createPost(event, callback);
   }
-};
+});
 
 /* This is the first in a series of functions that call each other when receiving
  * an event for an Instagram image.
