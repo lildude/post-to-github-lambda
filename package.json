@@ -26,7 +26,8 @@
   "dependencies": {
     "github": "^7.1.0",
     "http": "0.0.0",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "vandium": "^3.3.0"
   },
   "devDependencies": {
     "aws-lambda-local": "^1.0.14",
