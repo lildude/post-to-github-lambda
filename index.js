@@ -1,7 +1,7 @@
 'use strict';
-var vandium = require( 'vandium' );
-var GitHubApi = require('github');
-var github = new GitHubApi({debug: false});
+const vandium = require('vandium');
+const GitHubApi = require('github');
+const github = new GitHubApi({debug: false});
 
 vandium.validation({
   type: vandium.types.string().required(),
