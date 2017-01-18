@@ -18,9 +18,6 @@ exports.handler = vandium( function( event, context, callback ) {
   if (!process.env.PAT) {
     context.fail('Oooops, you forgot to set the PAT env var when setting up this script on lambda');
   }
-  if (!process.env.APIKEY) {
-    context.fail('Oooops, you forgot to set the APIKey when env var when setting up this script on lambda');
-  }
 
   // auth with personal access token
   github.authenticate({ type: 'token', token: process.env.PAT });
