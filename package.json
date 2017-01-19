@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec",
-    "deploy": "claudia create --region us-east-1 --handler index.handler",
+    "deploy": "script/deploy",
     "update": "claudia update"
   },
   "repository": {

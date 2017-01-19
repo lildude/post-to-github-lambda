@@ -1,0 +1,27 @@
+#!/bin/bash
+#/ Usage: PAT= [UUID=] deploy
+#/
+#/ Deployment script that prompts for your GitHub Personal Access token and
+#/ generates a unique UUID if neither are passed as environment variables on
+#/ execution.
+
+if [ "$1" = "--help" -o "$1" = "-h" ]; then
+  grep '^#/' < $0 | cut -c4-
+  exit 2
+fi
+
+if [ -z "$PAT" ]; then
+  echo -n "Enter your GitHub Personal Access token: "
+  read PAT
+  if [ -z "$PAT" ]; then
+    echo "You didn't provide a GitHub Personal Access token. Exiting."
+    exit 1
+  fi
+fi
+
+if [ -z "$UUID" ]; then
+  UUID=$(uuidgen)
+fi
+
+echo "Deploying to AWS Lambda with UUID of: ${UUID}"
+#claudia create --region us-east-1 --handler index.handler --set-env APIKEY=${UUID},PAT=${PAT}
