@@ -1,4 +1,5 @@
 'use strict';
+// TODO: Move the PAT to KMS - http://stackoverflow.com/questions/29372278/aws-lambda-how-to-store-secret-to-external-api
 const vandium = require('vandium');
 const GitHubApi = require('github');
 const github = new GitHubApi({debug: false});
@@ -13,12 +14,6 @@ vandium.validation({
 
 // One AWS we exec index.handler (because our filename is index.js)
 exports.handler = vandium( function( event, context, callback ) {
-  //console.log('env.PAT =', process.env.PAT);
-  //console.log('Event: \n', event);
-  // TODO: Move the PAT to KMS - http://stackoverflow.com/questions/29372278/aws-lambda-how-to-store-secret-to-external-api
-  if (!process.env.PAT) {
-    context.fail('Oooops, you forgot to set the PAT env var when setting up this script on lambda');
-  }
 
   // auth with personal access token
   github.authenticate({ type: 'token', token: process.env.PAT });
