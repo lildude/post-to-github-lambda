@@ -3,6 +3,7 @@ const vandium = require('vandium');
 const GitHubApi = require('github');
 const github = new GitHubApi({debug: false});
 
+vandium.stripErrors(false);
 vandium.validation({
   type: vandium.types.string().required(),
   repo: vandium.types.string().required(),
