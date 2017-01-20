@@ -19,9 +19,9 @@ exports.handler = vandium( function( event, context, callback ) {
   github.authenticate({ type: 'token', token: process.env.PAT });
 
   if (event.instagram_url) {
-    getImg(event, callback);
+    exports.getImg(event, callback);
   } else {
-    createPost(event, callback);
+    exports.createPost(event, callback);
   }
 });
 
@@ -35,7 +35,7 @@ exports.handler = vandium( function( event, context, callback ) {
  *
  * TODO: Optimise this as I know it's not "correct" - should probably use Promises from something like bluebird.
  */
-function getImg(event, callback) {
+exports.getImg = function(event, callback) {
   var request = require('request').defaults({ encoding: null });
 
   request.get(event.instagram_url, function (err, res, body) {
@@ -47,13 +47,13 @@ function getImg(event, callback) {
           console.log(JSON.stringify(err));
           callback(err, 'Ooops. Something went wrong getting Instagram image');
         } else {
-          uploadImg(data, filename, event, callback);
+          exports.uploadImg(data, filename, event, callback);
         }
       }
   });
 };
 
-function uploadImg(data, filename, event, callback) {
+exports.uploadImg = function(data, filename, event, callback) {
   github.repos.createFile({
     owner: 'lildude',
     repo: event.repo,
@@ -66,12 +66,12 @@ function uploadImg(data, filename, event, callback) {
       callback(err, 'Ooops. Something went wrong uploading image to GitHub');
     } else {
       //console.log('Successfully added Instagram img ' + filename);
-      createPost(event, callback, filename)
+      exports.createPost(event, callback, filename)
     }
   });
 }
 
-function createPost(event, callback, imgFileName = '') {
+exports.createPost = function(event, callback, imgFileName = '') {
   var date = new Date();
   var content = event.content;
 
@@ -82,14 +82,14 @@ function createPost(event, callback, imgFileName = '') {
     content = parsed[2];
   }
 
-  var fileName = date.toISOString().substr(0, 10) + '-' + (title ? slugify(title) : Math.round(Number(date) / 1000) % (24 * 60 * 60)) + '.md';
+  var fileName = date.toISOString().substr(0, 10) + '-' + (title ? exports.slugify(title) : Math.round(Number(date) / 1000) % (24 * 60 * 60)) + '.md';
 
   var fileContent = '---\n';
   fileContent += 'layout: post\n';
   if (title) {
     fileContent += 'title: "' + title + '"\n';
   }
-  fileContent += 'date: ' + date.toISOString().substr(0, 19).replace('T', ' ') + ' ' + createOffset(date) + '\n';
+  fileContent += 'date: ' + date.toISOString().substr(0, 19).replace('T', ' ') + ' ' + exports.createOffset(date) + '\n';
   fileContent += '---\n\n';
 
   if (event.instagram_url) {
@@ -113,19 +113,19 @@ function createPost(event, callback, imgFileName = '') {
   });
 }
 
-function pad(value) {
+exports.pad = function(value) {
   return value < 10 ? '0' + value : value;
 }
 
-function createOffset(date) {
+exports.createOffset = function(date) {
   var sign = (date.getTimezoneOffset() > 0) ? '-' : '+';
   var offset = Math.abs(date.getTimezoneOffset());
-  var hours = pad(Math.floor(offset / 60));
-  var minutes = pad(offset % 60);
+  var hours = exports.pad(Math.floor(offset / 60));
+  var minutes = exports.pad(offset % 60);
   return sign + hours + minutes;
 }
 
-function slugify(string) {
+exports.slugify = function(string) {
   return string
     .toString()
     .trim()
