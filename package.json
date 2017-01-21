@@ -34,7 +34,7 @@
     "chai": "^3.5.0",
     "claudia": "^2.4.0",
     "mocha": "^3.2.0",
-    "sinon": "^1.17.7"
+    "simple-mock": "^0.7.3"
   },
   "files": [
     "*.js"
