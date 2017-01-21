@@ -44,9 +44,12 @@ exports.getImg = function(event, callback) {
         var filename = pathname.substring(pathname.lastIndexOf('/') + 1);
         var data = new Buffer(body).toString('base64');
         if (err) {
-          console.log(JSON.stringify(err));
           callback(err, 'Ooops. Something went wrong getting Instagram image');
         } else {
+          // Exit here when testing
+          if (process.env.NODE_ENV == 'test') {
+            return data;
+          }
           exports.uploadImg(data, filename, event, callback);
         }
       }
@@ -96,6 +99,11 @@ exports.createPost = function(event, callback, imgFileName = '') {
     fileContent += '![](/media/' + imgFileName + '){:class="instagram"}\n\n';
   }
   fileContent += content;
+
+  // Exit here when testing
+  if (process.env.NODE_ENV == 'test') {
+    return fileContent;
+  }
 
   github.repos.createFile({
     owner: 'lildude',
