@@ -13,10 +13,10 @@ vandium.validation({
 });
 
 // One AWS we exec index.handler (because our filename is index.js)
-exports.handler = vandium( function( event, context, callback ) {
+exports.handler = vandium(function( event, context, callback) {
 
   // auth with personal access token
-  github.authenticate({ type: 'token', token: process.env.PAT });
+  github.authenticate({type: 'token', token: process.env.PAT});
 
   if (event.instagram_url) {
     exports.getImg(event, callback);
